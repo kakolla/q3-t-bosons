@@ -24,7 +24,10 @@ async def ibm_setup():
     service.backends()
 
 
-
+# impact[i] = number of ppl / benefit of this city/hospital
+# costs[i] = cost to develop MRI infrastructure in that area
+# budget = total budget we have
+# output: list of optimal places to place an MRI
 
 async def run_knapsack(budget: int, impact: list[int], costs: list[int]) -> list[int]:
     """
