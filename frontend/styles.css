@@ -1,0 +1,221 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    background-color: #F0EEE6;
+    color: #222;
+    line-height: 1.6;
+    min-height: 300vh; /* Allow for scroll-based animation */
+    overflow-x: hidden;
+}
+
+.quantum-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    opacity: 0.85;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 2rem;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    position: relative;
+    z-index: 1;
+    margin-top: 85vh; /* Start below the initial quantum chip view */
+}
+
+header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+header h1 {
+    font-size: 2.5rem;
+    font-weight: 300;
+    margin-bottom: 0.5rem;
+    color: #222;
+}
+
+header p {
+    font-size: 1.1rem;
+    color: #666;
+    font-weight: 300;
+}
+
+main {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+.form-section {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.input-group label {
+    font-weight: 500;
+    color: #333;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+select, input[type="number"] {
+    padding: 0.75rem 1rem;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 1rem;
+    background: white;
+    transition: border-color 0.2s ease;
+}
+
+select:focus, input[type="number"]:focus {
+    outline: none;
+    border-color: #4a90e2;
+}
+
+.optimize-btn {
+    background: #4a90e2;
+    color: white;
+    border: none;
+    padding: 1rem 2rem;
+    font-size: 1rem;
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 4px rgba(74, 144, 226, 0.2);
+}
+
+.optimize-btn:hover {
+    background: #357abd;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 8px rgba(74, 144, 226, 0.3);
+}
+
+.optimize-btn:active {
+    transform: translateY(0);
+}
+
+.optimize-btn:disabled {
+    background: #ccc;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+}
+
+.csv-section, .results-section {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(10px);
+    padding: 2rem;
+    border-radius: 12px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.csv-section h3, .results-section h3 {
+    margin-bottom: 1rem;
+    font-weight: 500;
+    color: #333;
+}
+
+.csv-display {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 1rem;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.csv-display pre {
+    font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    color: #333;
+    white-space: pre;
+    margin: 0;
+}
+
+.result-display {
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 1.5rem;
+    font-family: 'SF Mono', Monaco, 'Cascadia Code', 'Roboto Mono', Consolas, 'Courier New', monospace;
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: #333;
+    white-space: pre-wrap;
+}
+
+.loading {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    border: 3px solid #f3f3f3;
+    border-top: 3px solid #4a90e2;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-right: 0.5rem;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+    
+    header h1 {
+        font-size: 2rem;
+    }
+    
+    .form-section, .csv-section, .results-section {
+        padding: 1.5rem;
+    }
+    
+    .csv-display {
+        max-height: 200px;
+    }
+}
+
+@media (max-width: 480px) {
+    header h1 {
+        font-size: 1.75rem;
+    }
+    
+    .form-section, .csv-section, .results-section {
+        padding: 1rem;
+    }
+}

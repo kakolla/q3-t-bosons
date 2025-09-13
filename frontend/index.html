@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quantum Knapsack Optimization</title>
+    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/GLTFLoader.js"></script>
+</head>
+<body>
+    <div class="quantum-bg" id="quantum-bg"></div>
+    <div class="container">
+        <header>
+            <h1>Quantum Knapsack Optimization</h1>
+            <p>Optimize resource allocation using quantum computing</p>
+        </header>
+
+        <main>
+            <div class="form-section">
+                <div class="input-group">
+                    <label for="criteria">Impact Criteria</label>
+                    <select id="criteria" name="criteria">
+                        <option value="child_mortality">Child Mortality</option>
+                        <option value="population">Population</option>
+                        <option value="medically_underserved">Medically Underserved</option>
+                        <option value="rural_access">Rural Access</option>
+                        <option value="elderly_population">Elderly Population</option>
+                        <option value="poverty_rate">Poverty Rate</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label for="budget">Budget</label>
+                    <input type="number" id="budget" name="budget" placeholder="Enter budget amount" min="0" step="1000">
+                </div>
+
+                <button id="run-optimization" class="optimize-btn">Run Optimization</button>
+            </div>
+
+            <div class="csv-section">
+                <h3>Data Preview</h3>
+                <div class="csv-display" id="csv-display">
+                    <pre id="csv-content">Location,Impact,Cost,Selected
+Hospital A,85,45000,false
+Hospital B,92,52000,false
+Hospital C,78,38000,false
+Hospital D,95,58000,false
+Hospital E,67,32000,false
+Hospital F,88,48000,false
+Hospital G,73,41000,false
+Hospital H,91,55000,false</pre>
+                </div>
+            </div>
+
+            <div class="results-section" id="results-section" style="display: none;">
+                <h3>Optimization Results</h3>
+                <div class="result-display" id="result-display"></div>
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+    <script src="quantum-scene.js"></script>
+</body>
+</html>

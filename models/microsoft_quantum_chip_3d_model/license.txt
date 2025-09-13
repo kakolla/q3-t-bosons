@@ -1,0 +1,11 @@
+Model Information:
+* title:	Microsoft Quantum Chip 3D Model
+* source:	https://sketchfab.com/3d-models/microsoft-quantum-chip-3d-model-e411f853ccf14432af5f5f4fe21390f3
+* author:	Itisnarayan (https://sketchfab.com/Itisnarayan)
+
+Model License:
+* license type:	CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
+* requirements:	Author must be credited. Commercial use is allowed.
+
+If you use this 3D model in your project be sure to copy paste this credit wherever you share it:
+This work is based on "Microsoft Quantum Chip 3D Model" (https://sketchfab.com/3d-models/microsoft-quantum-chip-3d-model-e411f853ccf14432af5f5f4fe21390f3) by Itisnarayan (https://sketchfab.com/Itisnarayan) licensed under CC-BY-4.0 (http://creativecommons.org/licenses/by/4.0/)
