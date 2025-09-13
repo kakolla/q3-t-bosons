@@ -30,28 +30,37 @@ async def run_knapsack(budget: int, impact: list[int], costs: list[int]) -> list
     """
     Given a budget and costs and impacts, return the optimal solution in a list
     """
-    opt = []
-
-    await ibm_setup()
     from qiskit_optimization.applications import Knapsack
     from qiskit_optimization.algorithms import MinimumEigenOptimizer
     from qiskit_optimization.minimum_eigensolvers import QAOA, NumPyMinimumEigensolver
+    from qiskit_aer.primitives import Sampler
+    from qiskit_algorithms.optimizers import COBYLA
 
+    # Build problem
     prob = Knapsack(values=impact, weights=costs, max_weight=budget)
     qp = prob.to_quadratic_program()
+    print("Quadratic Program:")
     print(qp.prettyprint())
 
-    # Solve knapsack
-    # Numpy Eigensolver
-    meo = MinimumEigenOptimizer(min_eigen_solver=NumPyMinimumEigensolver())
-    result = meo.solve(qp)
-    print(result.prettyprint())
-    print("\nsolution:", prob.interpret(result))
-    opt = prob.interpret(result)
+    # Classical baseline
+    meo_classical = MinimumEigenOptimizer(min_eigen_solver=NumPyMinimumEigensolver())
+    result_classical = meo_classical.solve(qp)
+    print("\nClassical (NumPyMinimumEigensolver):")
+    print(result_classical.prettyprint())
+    print("solution:", prob.interpret(result_classical))
 
+    # Quantum simulator with QAOA
+    sampler = Sampler()
+    qaoa = QAOA(sampler=sampler, optimizer=COBYLA(maxiter=100), reps=1)
 
+    meo_qaoa = MinimumEigenOptimizer(qaoa)
+    result_qaoa = meo_qaoa.solve(qp)
+    print("\nQuantum (QAOA with AerSampler):")
+    print(result_qaoa.prettyprint())
+    print("solution:", prob.interpret(result_qaoa))
 
-    return opt
+    # Return the QAOA solution
+    return prob.interpret(result_qaoa)
 
 
 import asyncio
