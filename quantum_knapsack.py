@@ -56,5 +56,9 @@ async def run_knapsack(budget: int, impact: list[int], costs: list[int]) -> list
 
 import asyncio
 if __name__ == "__main__":
-    soln = asyncio.run(run_knapsack(100, [3,4,5,6,7,8,9,10], [2,3,4,5,6,7,8,9]))
+    import random
+    impact = [int(random.random()*100) for i in range(10)]
+    costs = [int(random.random()*100) for i in range(10)]
+
+    soln = asyncio.run(run_knapsack(100, impact, costs))
     print(soln)
