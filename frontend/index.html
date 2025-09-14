@@ -12,11 +12,20 @@
     <div class="quantum-bg" id="quantum-bg"></div>
     <div class="container">
         <header>
-            <h1>Quantum Knapsack Optimization</h1>
-            <p>Optimize resource allocation using quantum computing</p>
+            <h1>OptiMED-Q - Quantum Knapsack Optimization</h1>
+            <p>Optimize medical infrastructure allocation considering impact using quantum computing</p>
         </header>
 
         <main>
+            <div>
+                <h3 style="font-style: i;">The problem</h3>
+                <p>Unequal access to essential medical infrastructure AND diagnostic tools particularly in underserved areas.
+                </p>
+                <br />
+                <h3>Problem statement:</h3>
+                <p>How can we allocate a limited budget to medically underserved areas, quantified by their impact and cost?
+Especially with 1000s of hospitals</p>
+            </div>
             <div class="form-section">
                 <div class="input-group">
                     <label for="criteria">Impact Criteria</label>
@@ -31,7 +40,7 @@
 
                 <div class="input-group">
                     <label for="budget">Budget</label>
-                    <input type="number" id="budget" name="budget" placeholder="Enter budget amount" min="0" step="1000">
+                    <input type="number" id="budget" name="budget" placeholder="Enter budget amount (in 100 millions)" min="0" step="1000">
                 </div>
 
                 <button id="run-optimization" class="optimize-btn">Run Optimization</button>
