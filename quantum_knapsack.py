@@ -1,4 +1,4 @@
-
+from typing import Tuple
 async def ibm_setup():
     from dotenv import load_dotenv
     import os
@@ -29,7 +29,7 @@ async def ibm_setup():
 # budget = total budget we have
 # output: list of optimal places to place an MRI
 
-async def run_knapsack(budget: int, impact: list[int], costs: list[int]) -> list[int]:
+async def run_knapsack(budget: int, impact: list[int], costs: list[int]) -> Tuple[list[int], list[int]]:
     """
     Given a budget and costs and impacts, return the optimal solution in a list
     """
@@ -63,7 +63,7 @@ async def run_knapsack(budget: int, impact: list[int], costs: list[int]) -> list
     print("solution:", prob.interpret(result_qaoa))
 
     # Return the QAOA solution
-    return prob.interpret(result_qaoa)
+    return prob.interpret(result_classical), prob.interpret(result_qaoa)
 
 
 import asyncio
