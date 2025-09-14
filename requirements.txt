@@ -1,8 +1,10 @@
 Flask==2.3.3
 Flask-CORS==4.0.0
+polars==0.20.2
 qiskit==0.44.2
 qiskit-optimization==0.6.1
 qiskit-algorithms==0.2.2
 qiskit-aer==0.12.2
 qiskit-ibm-runtime==0.15.1
 python-dotenv==1.0.0
+gunicorn==21.2.0

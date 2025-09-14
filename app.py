@@ -2,10 +2,10 @@ from flask import Flask, request, jsonify, send_from_directory
 from flask_cors import CORS
 import asyncio
 import os
-from quantum_knapsack import run_knapsack, run_knapsack_with_csv
+from quantum_knapsack import run_knapsack_with_csv
 
 app = Flask(__name__)
-CORS(app)
+CORS(app)  # Enable CORS for all routes
 
 @app.route('/')
 def index():
@@ -118,7 +118,8 @@ def internal_error(error):
     return jsonify({'error': 'Internal server error'}), 500
 
 if __name__ == '__main__':
+    port = int(os.environ.get('PORT', 8080))
     print("Starting Quantum Knapsack Optimization Server...")
-    print("Frontend available at: http://localhost:8080")
-    print("API endpoint: http://localhost:8080/run_knapsack")
-    app.run(debug=True, host='0.0.0.0', port=8080)
+    print(f"Frontend available at: http://localhost:{port}")
+    print(f"API endpoint: http://localhost:{port}/run_knapsack")
+    app.run(debug=True, host='0.0.0.0', port=port)
