@@ -100,7 +100,7 @@ async def run_knapsack_with_csv(budget: int, criteria: str = 'Population') -> di
     Load CSV data, process it based on criteria, and run quantum knapsack optimization
     """
     import polars as pl
-    import nest_asyncio
+    # import nest_asyncio
     
     # try:
     #     nest_asyncio.apply()
