@@ -1,8 +1,9 @@
 # q3-t-bosons
-Quantum
+Knapsack problem applied to allocating medical infrastructure for cities in the United States.
+Implemented using IBM Qiskit using a QAOA optimization algorithm.
 
 
-# Citations
+## Citations
 
 Datasets:
 PolicyMap. (n.d.). Medically Underserved Areas (MUA), as of 2024 [Map based on data from HRSA: Data downloaded from https://data.hrsa.gov/tools/shortage-area/mua-find]. Retrieved September 13, 2025, from http://www.policymap.com.libproxy2.usc.edu/
