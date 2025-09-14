@@ -10,12 +10,12 @@ CORS(app)  # Enable CORS for all routes
 @app.route('/')
 def index():
     """Serve the main HTML page"""
-    return send_from_directory('frontend', 'index.html')
+    return send_from_directory(os.path.join(os.getcwd(), 'frontend'), 'index.html')
 
 @app.route('/<path:filename>')
 def serve_static(filename):
     """Serve static files (CSS, JS)"""
-    return send_from_directory('frontend', filename)
+    return send_from_directory(os.path.join(os.getcwd(), 'frontend'), filename)
 
 @app.route('/models/<path:filename>')
 def serve_models(filename):
