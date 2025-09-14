@@ -102,10 +102,10 @@ async def run_knapsack_with_csv(budget: int, criteria: str = 'Population') -> di
     import polars as pl
     import nest_asyncio
     
-    try:
-        nest_asyncio.apply()
-    except:
-        pass  # Already applied
+    # try:
+    #     nest_asyncio.apply()
+    # except:
+    #     pass  # Already applied
     
     # Load and process CSV data
     csv = pl.read_csv('data/medically_underserved_data.csv', ignore_errors=True)
