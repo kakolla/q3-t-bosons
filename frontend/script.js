@@ -73,20 +73,31 @@ document.addEventListener('DOMContentLoaded', function() {
         runButton.innerHTML = '<span class="loading"></span>Running Optimization...';
 
         try {
-            const data = sampleData[criteria];
+            // For Population criteria, use CSV-based optimization
+            let requestBody;
+            if (criteria === 'population') {
+                requestBody = {
+                    criteria: 'Population',  // Note: capitalize for backend
+                    budget: budget
+                };
+            } else {
+                // For other criteria, use sample data
+                const data = sampleData[criteria];
+                requestBody = {
+                    criteria: criteria,
+                    budget: budget,
+                    impact: data.impacts,
+                    costs: data.costs,
+                    locations: data.locations
+                };
+            }
             
             const response = await fetch('/run_knapsack', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({
-                    criteria: criteria,
-                    budget: budget,
-                    impact: data.impacts,
-                    costs: data.costs,
-                    locations: data.locations
-                })
+                body: JSON.stringify(requestBody)
             });
 
             if (!response.ok) {
@@ -96,7 +107,11 @@ document.addEventListener('DOMContentLoaded', function() {
             const result = await response.json();
             
             // Display results
-            displayResults(result, data);
+            if (criteria === 'population') {
+                displayCSVResults(result);
+            } else {
+                displayResults(result, data);
+            }
             
         } catch (error) {
             console.error('Error:', error);
@@ -108,6 +123,35 @@ document.addEventListener('DOMContentLoaded', function() {
             runButton.innerHTML = 'Run Optimization';
         }
     });
+
+    function displayCSVResults(result) {
+        let resultText = `Optimization Results for ${result.criteria}\n`;
+        resultText += `Budget: $${budgetInput.value}\n\n`;
+        
+        if (result.success && result.selected_count > 0) {
+            resultText += 'Selected Locations:\n';
+            
+            for (let i = 0; i < result.locations.length; i++) {
+                resultText += `✓ ${result.locations[i]} (${result.cities[i]})\n`;
+            }
+            
+            resultText += `\nTotal Cost: $${result.total_cost}`;
+            resultText += `\nTotal Impact: ${result.total_impact}`;
+            resultText += `\nPopulation Reached: ${result.population_reached.toLocaleString()} people`;
+            resultText += `\nBudget Utilization: ${result.budget_utilization.toFixed(1)}%`;
+            resultText += `\nRemaining Budget: $${result.budget - result.total_cost}`;
+            resultText += `\nMethod Used: ${result.method_used}`;
+            
+        } else {
+            resultText += 'No optimal solution found within the given budget.';
+        }
+
+        resultDisplay.textContent = resultText;
+        resultsSection.style.display = 'block';
+        
+        // Update CSV display for population criteria
+        updateCSVForPopulation(result);
+    }
 
     function displayResults(result, data) {
         let resultText = `Optimization Results for ${criteriaSelect.options[criteriaSelect.selectedIndex].text}\n`;
@@ -144,6 +188,19 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Update CSV display to show selected items
         updateCSVWithResults(result.solution, data);
+    }
+
+    function updateCSVForPopulation(result) {
+        let csvText = 'Hospital,City,Population Impact,Cost,Selected\n';
+        if (result.success && result.locations) {
+            for (let i = 0; i < result.total_locations; i++) {
+                const isSelected = result.solution[i] === 1;
+                const hospitalName = isSelected ? result.locations[result.solution.slice(0, i).reduce((a, b) => a + b, 0)] : 'N/A';
+                const cityName = isSelected ? result.cities[result.solution.slice(0, i).reduce((a, b) => a + b, 0)] : 'N/A';
+                csvText += `Hospital ${i + 1},${cityName},${isSelected ? 'Selected' : 'Not Selected'},${isSelected ? 'Selected' : 'Not Selected'},${isSelected}\n`;
+            }
+        }
+        csvContent.textContent = csvText;
     }
 
     function updateCSVWithResults(solution, data) {
