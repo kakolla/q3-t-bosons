@@ -26,6 +26,42 @@
                 <p>How can we allocate a limited budget to medically underserved areas, quantified by their impact and cost?
 Especially with 1000s of hospitals</p>
             </div>
+            <div style="background-color:#2e3440; color:#eceff4; padding:16px; border-radius:8px; margin-top:20px; font-family:monospace; overflow-x:auto;">
+    <pre style="margin:0;"><code>
+# qiskit imports
+def run_knapsack(budget: int, impact: list[int], costs: list[int]) -> list[int]:
+    """
+    Given a budget and costs and impacts, return the optimal solution in a list using a QAOA algorithm
+    """
+
+    # build problem
+    prob = Knapsack(values=impact, weights=costs, max_weight=budget)
+    qp = prob.to_quadratic_program()
+    print("Quadratic Program:")
+    print(qp.prettyprint())
+
+    # Classical baseline
+    meo_classical = MinimumEigenOptimizer(min_eigen_solver=NumPyMinimumEigensolver())
+    result_classical = meo_classical.solve(qp)
+    print("\nClassical (NumPyMinimumEigensolver):")
+    print(result_classical.prettyprint())
+    print("solution:", prob.interpret(result_classical))
+
+    # Quantum simulator with QAOA
+    sampler = Sampler()
+    qaoa = QAOA(sampler=sampler, optimizer=COBYLA(maxiter=100), reps=1)
+
+    meo_qaoa = MinimumEigenOptimizer(qaoa)
+    result_qaoa = meo_qaoa.solve(qp)
+    print("\nQuantum (QAOA with AerSampler):")
+    print(result_qaoa.prettyprint())
+    print("solution:", prob.interpret(result_qaoa))
+
+    # Return the QAOA solution
+    return prob.interpret(result_qaoa)
+    </code></pre>
+</div>
+
             <div class="form-section">
                 <div class="input-group">
                     <label for="criteria">Impact Criteria</label>

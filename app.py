@@ -63,10 +63,13 @@ def run_knapsack_endpoint():
                 return jsonify(response)
             except Exception as csv_error:
                 print(f"CSV optimization error: {csv_error}")
+                import traceback
+                traceback.print_exc()
                 return jsonify({
                     'success': False,
                     'error': str(csv_error),
-                    'message': 'CSV-based optimization failed'
+                    'message': f'CSV-based optimization failed: {str(csv_error)}',
+                    'traceback': traceback.format_exc()
                 }), 500
         
         # Validate manual data inputs
