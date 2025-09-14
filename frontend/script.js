@@ -73,24 +73,11 @@ document.addEventListener('DOMContentLoaded', function() {
         runButton.innerHTML = '<span class="loading"></span>Running Optimization...';
 
         try {
-            // For Population criteria, use CSV-based optimization
-            let requestBody;
-            if (criteria === 'population') {
-                requestBody = {
-                    criteria: 'Population',  // Note: capitalize for backend
-                    budget: budget
-                };
-            } else {
-                // For other criteria, use sample data
-                const data = sampleData[criteria];
-                requestBody = {
-                    criteria: criteria,
-                    budget: budget,
-                    impact: data.impacts,
-                    costs: data.costs,
-                    locations: data.locations
-                };
-            }
+            // Use CSV-based optimization for all criteria
+            let requestBody = {
+                criteria: criteria,
+                budget: budget
+            };
             
             const response = await fetch('/run_knapsack', {
                 method: 'POST',
@@ -106,12 +93,8 @@ document.addEventListener('DOMContentLoaded', function() {
 
             const result = await response.json();
             
-            // Display results
-            if (criteria === 'population') {
-                displayCSVResults(result);
-            } else {
-                displayResults(result, data);
-            }
+            // Display results - use CSV results for all criteria now
+            displayCSVResults(result);
             
         } catch (error) {
             console.error('Error:', error);
@@ -137,7 +120,12 @@ document.addEventListener('DOMContentLoaded', function() {
             
             resultText += `\nTotal Cost: $${result.total_cost}`;
             resultText += `\nTotal Impact: ${result.total_impact}`;
-            resultText += `\nPopulation Reached: ${result.population_reached.toLocaleString()} people`;
+            // Dynamic impact display based on criteria
+            if (result.criteria === 'total_beds') {
+                resultText += `\nTotal Beds: ${result.total_impact.toLocaleString()} beds`;
+            } else {
+                resultText += `\nPopulation Reached: ${result.population_reached.toLocaleString()} people`;
+            }
             resultText += `\nBudget Utilization: ${result.budget_utilization.toFixed(1)}%`;
             resultText += `\nRemaining Budget: $${result.budget - result.total_cost}`;
             resultText += `\nMethod Used: ${result.method_used}`;

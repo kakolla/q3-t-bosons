@@ -56,8 +56,8 @@ def run_knapsack_endpoint():
             return jsonify({'error': 'Budget must be a positive integer'}), 400
         
         # Check if using CSV data (no impact/costs provided, only criteria and budget)
-        if not impact and not costs and criteria == 'Population':
-            # Use CSV-based optimization
+        if not impact and not costs:
+            # Use CSV-based optimization for any criteria
             try:
                 response = asyncio.run(run_knapsack_with_csv(budget, criteria))
                 return jsonify(response)

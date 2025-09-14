@@ -109,10 +109,24 @@ async def run_knapsack_with_csv(budget: int, criteria: str = 'Population') -> di
     
     # Load and process CSV data
     csv = pl.read_csv('data/medically_underserved_data.csv', ignore_errors=True)
-    data = csv.select(['Population', 'Hospital_Cost', 'facility_name', 'City', 'State']).drop_nulls()
+    
+    # Map criteria to column names and normalization factors
+    criteria_mapping = {
+        'Population': ('Population', 1000, 'Pop'),
+        'total_beds': ('total_beds', 1, 'Beds'),
+        'coronary_death': ('Population', 1000, 'Pop'),  # Fallback to population for now
+        'medically_underserved': ('Population', 1000, 'Pop'),  # Fallback to population
+        'rural_access': ('Population', 1000, 'Pop'),  # Fallback to population
+        'accidental_death': ('Population', 1000, 'Pop')  # Fallback to population
+    }
+    
+    # Get the appropriate column and normalization factor
+    impact_column, normalization_factor, display_name = criteria_mapping.get(criteria, ('Population', 1000, 'Pop'))
+    
+    data = csv.select([impact_column, 'Hospital_Cost', 'facility_name', 'City', 'State']).drop_nulls()
     data = data.limit(20)
     
-    populations = data['Population'].to_list()
+    impact_values = data[impact_column].to_list()
     hospital_costs = data['Hospital_Cost'].to_list()
     facility_names = data['facility_name'].to_list()
     cities = data['City'].to_list()
@@ -120,14 +134,14 @@ async def run_knapsack_with_csv(budget: int, criteria: str = 'Population') -> di
     
     print('Raw data sample:')
     for i in range(min(5, len(facility_names))):
-        print(f'{facility_names[i][:30]}... Pop: {populations[i]:,}, Cost: ${hospital_costs[i]:,}')
+        print(f'{facility_names[i][:30]}... {display_name}: {impact_values[i]:,}, Cost: ${hospital_costs[i]:,}')
     
     # Normalize values as requested
-    impact = [max(1, int(pop / 1000)) for pop in populations]
+    impact = [max(1, int(val / normalization_factor)) for val in impact_values]
     costs = [max(1, int(cost / 100000000)) for cost in hospital_costs]
     
     print(f'\nNormalized data:')
-    print(f'Impact (population in thousands): {impact}')
+    print(f'Impact ({criteria} normalized): {impact}')
     print(f'Costs (scaled units): {costs}')
     
     print(f'\nCriteria: {criteria}')
