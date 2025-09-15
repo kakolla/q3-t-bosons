@@ -2,6 +2,8 @@
 Knapsack problem applied to allocating medical infrastructure for cities in the United States.
 Implemented using IBM Qiskit using a QAOA optimization algorithm.
 
+## Check it out here
+https://q3-t-bosons-production.up.railway.app/
 
 ## Citations
 
